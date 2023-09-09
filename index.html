@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Cost management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h3 class="title">مدیریت هزینه ها</h3>
+      <div class="add-budget-container">
+        <label class="add-budget-label" for="number"
+          >لطفا بودجه اولیه خود را وارد کنید</label
+        >
+        <input type="number" id="add-budget-input" />
+        <button class="add-budget-button">محاسبه</button>
+      </div>
+      <div class="add-cost-container">
+        <label class="add-cost1-label" for="text"
+          >لطفا عنوان هزینه را وارد کنید</label
+        >
+        <input type="text" id="add-cost-input1" />
+
+        <label class="add-cost1-label" for="number"
+          >لطفا مقدار عنوان هزینه را وارد کنید</label
+        >
+        <input type="number" id="add-cost-input2" />
+        <button class="add-cost-button">اضافه کردن هزینه</button>
+      </div>
+      <div class="disply">
+        <div class="display-left">
+          <h4 class="display-left-h4">بودجه</h4>
+          <img
+            class="display-left-image"
+            src="images/icons8-money-96 (1).png"
+            alt="budget"
+          />
+          <label class="display-left-label" for="number">$0000</label>
+        </div>
+        <div class="display-center">
+          <h4 class="display-center-h4">هزینه ها</h4>
+          <img
+            class="display-center-image"
+            src="images/icons8-card-96 (1).png"
+            alt="costs"
+          />
+          <label class="display-center-label" for="number">$0000</label>
+        </div>
+        <div class="display-right">
+          <h4 class="display-right-h4">موجودی</h4>
+          <img
+            class="display-right-image"
+            src="images/icons8-dollar-96 (1).png"
+            alt="supply"
+          />
+          <label class="display-right-label" for="number">$0000</label>
+        </div>
+      </div>
+      <div class="table-div">
+        <table class="table">
+          <tr>
+            <th class="table-row1-1">نوع هزینه</th>
+            <th class="table-row1-2">مقدار هزینه</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
