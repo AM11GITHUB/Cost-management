@@ -35,11 +35,6 @@ body {
   /* grid-auto-flow: column; */
   /* align-content: space-between; */
 }
-/* @media (max-width: 600px) {
-  .container {
-    grid-template-columns: auto;
-  }
-} */
 
 .title {
   display: grid;
