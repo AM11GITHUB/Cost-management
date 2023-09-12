@@ -48,7 +48,7 @@ btnAddCost.addEventListener("click", function () {
         supply -= inCost2;
         displayRightLabel.textContent = `$${supply}`;
         displayCenterLabel.textContent = `$${costs}`;
-
+        i++;
         const html = `
         
         <tr class="td-${i}">
@@ -56,7 +56,6 @@ btnAddCost.addEventListener("click", function () {
             <td>${inCost2}</td>
             <td><button class="trash-button"><img class="td-${i}" src="images/icons8-trash-30.png"/></button></td>
         </tr>`;
-        i++;
 
         table.insertAdjacentHTML("beforeend", html);
       }
@@ -70,4 +69,17 @@ tableDiv.addEventListener("click", function (e) {
   console.log(index);
   const element = document.querySelector(`.td-${index}`);
   element.remove();
+  //
+  // document.querySelector(".firebase").innerHTML += index;
+  // document.querySelector(".table").addEventListener("click", function (e) {
+  //   e.preventDefault();
+  //   // console.log(e.target.classList[0]);
+  //   // const index = e.target.classList[0].slice(3);
+  //   // console.log(index);
+  //   // const element = document.querySelector(`.td-${index}`);
+  //   // element.remove();
+  //   let index = remove(ref(db, document.querySelector(`.td-${index}`)));
+  //   console.log("delete");
+
+  // });
 });

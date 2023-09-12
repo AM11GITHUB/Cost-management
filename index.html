@@ -5,7 +5,7 @@
     <title>Cost management</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/style.css" />
-    <!-- <link rel="stylesheet" href="/css/responsive2.css" /> -->
+    <link rel="stylesheet" href="/css/responsive2.css" />
   </head>
   <body>
     <div class="container">
@@ -67,52 +67,109 @@
         </table>
       </div>
     </div>
-    <script src="/js/script.js"></script>
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
-      import {
-        getDatabase,
-        ref,
-        set,
-        get,
-        child,
-      } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
+  </body>
+  <script src="/js/script.js"></script>
+  <script type="module">
+    let indexCost = 0;
+    let indexBudget = 0;
 
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCrHar_XCrE7_vuMjgQ4gDBGmnugbLcSog",
-        authDomain: "cost-management-42c9e.firebaseapp.com",
-        projectId: "cost-management-42c9e",
-        storageBucket: "cost-management-42c9e.appspot.com",
-        messagingSenderId: "278463838247",
-        appId: "1:278463838247:web:747f2d50a1ea34eaf6f602",
-      };
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      get,
+      child,
+      remove,
+    } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCrHar_XCrE7_vuMjgQ4gDBGmnugbLcSog",
+      authDomain: "cost-management-42c9e.firebaseapp.com",
+      projectId: "cost-management-42c9e",
+      storageBucket: "cost-management-42c9e.appspot.com",
+      messagingSenderId: "278463838247",
+      appId: "1:278463838247:web:747f2d50a1ea34eaf6f602",
+    };
 
-      // Get ref to database services
-      const db = getDatabase(app);
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    // firebase.initializeApp(firebaseConfig);
 
-      document
-        .querySelector(".add-budget-button")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          set(ref(db, "" + document.getElementById("add-budget-input").value), {
+    // Get ref to database services
+    const db = getDatabase(app);
+
+    document
+      .querySelector(".add-budget-button")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        indexBudget++;
+        set(
+          ref(
+            db,
+            "Budget: " +
+              indexBudget +
+              "_" +
+              document.getElementById("add-budget-input").value
+          ),
+          {
             budget: document.getElementById("add-budget-input").value,
-          });
-        });
+            id: indexBudget,
+          }
+        );
+      });
 
-      document
-        .querySelector(".add-cost-button")
-        .addEventListener("click", function (e) {
-          e.preventDefault();
-          set(ref(db, "" + document.getElementById("add-cost-input1").value), {
+    document
+      .querySelector(".add-cost-button")
+      .addEventListener("click", function (e) {
+        e.preventDefault();
+        indexCost++;
+        set(
+          ref(
+            db,
+            "Cost: " +
+              indexCost +
+              "-" +
+              document.getElementById("add-cost-input1").value
+          ),
+          {
             name: document.getElementById("add-cost-input1").value,
             cost: document.getElementById("add-cost-input2").value,
+            id: indexCost,
+          }
+        );
+      });
+    document.querySelector(".table").addEventListener("click", function (e) {
+      e.preventDefault();
+      const index = e.target.classList[0].slice(3);
+      console.log("Index:", index);
+      const elementToDelete = document.querySelector(`.td-${index}`);
+
+      console.log("Element to delete:", elementToDelete);
+
+      if (elementToDelete) {
+        const className = elementToDelete.getAttribute("class");
+        const indexValue = className.split(" ")[0].substr(3);
+        console.log("Index value:", indexValue);
+
+        const tdElements = elementToDelete.querySelectorAll("td");
+        const value1 = tdElements[0].innerText;
+        const value2 = tdElements[1].innerText;
+
+        console.log("Value 1:", value1);
+        console.log("Value 2:", value2);
+
+        const costRef = ref(db, "Cost: " + indexValue + "-" + value1);
+        remove(costRef)
+          .then(() => {
+            console.log("Cost deleted successfully");
+          })
+          .catch((error) => {
+            console.error("Error deleting cost:", error);
           });
-        });
-    </script>
-  </body>
+      }
+    });
+  </script>
 </html>
