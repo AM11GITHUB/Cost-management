@@ -101,6 +101,14 @@
     // Get ref to database services
     const db = getDatabase(app);
 
+    ///--------------------------------------
+    document.querySelector(".display-left-label").textContent = `$${budget0}`;
+    document.querySelector(".display-right-label").textContent = `$${supply}`;
+    document.querySelector(".display-right-label").textContent = `$${supply}`;
+    ///--------------------------------------
+
+    ///--------------------------------------
+
     document
       .querySelector(".add-budget-button")
       .addEventListener("click", function (e) {
@@ -171,5 +179,112 @@
           });
       }
     });
+    console.log("///-------------------------------------");
+
+    // Retrieve all costs
+    const costRef = ref(db);
+    const costPromise = get(costRef)
+      .then((costSnapshot) => {
+        console.log("Inside costSnapshot.then");
+        if (costSnapshot.exists()) {
+          const costs = costSnapshot.val();
+          console.log("All Costs:");
+          for (const costKey in costs) {
+            if (costs.hasOwnProperty(costKey)) {
+              const cost = costs[costKey];
+              console.log(cost);
+              if (cost.cost) {
+                costs0 = +cost.cost;
+                costsMap.set(cost.name, +cost.cost + "-" + +cost.id);
+                console.log("*** " + costsMap);
+                console.log(costs0 + " ccccc");
+              }
+            }
+          }
+          return costs;
+        } else {
+          console.log("No costs found");
+          return null;
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting costs:", error);
+        return null;
+      });
+
+    // Retrieve all budgets
+    const budgetRef = ref(db);
+    const budgetPromise = get(budgetRef)
+      .then((budgetSnapshot) => {
+        console.log("Inside budgetSnapshot.then");
+        if (budgetSnapshot.exists()) {
+          const budgets = budgetSnapshot.val();
+          console.log("All Budgets:");
+          for (const budgetKey in budgets) {
+            if (budgets.hasOwnProperty(budgetKey)) {
+              const budget = budgets[budgetKey];
+              console.log(budget);
+              if (budget.budget) {
+                budget0 += +budget.budget;
+                console.log(budget0 + " bbbbb");
+              }
+            }
+          }
+          return budgets;
+        } else {
+          console.log("No budgets found");
+          return null;
+        }
+      })
+      .catch((error) => {
+        console.error("Error getting budgets:", error);
+        return null;
+      });
+
+    Promise.all([costPromise, budgetPromise])
+      .then(([costs, budgets]) => {
+        supply = budget0 - costs0;
+        document.querySelector(
+          ".display-left-label"
+        ).textContent = `$${budget0}`;
+        document.querySelector(
+          ".display-right-label"
+        ).textContent = `$${supply}`;
+        document.querySelector(
+          ".display-center-label"
+        ).textContent = `$${costs0}`;
+
+        console.log("budget0= " + budget0);
+        console.log("costs0= " + costs0);
+        console.log("Costs:", costs);
+        console.log("Budgets:", budgets);
+        //---------//---------////---------//---------//
+        for (let [key, value] of costsMap) {
+          let arr = [];
+          arr = value.split("-");
+          let costValue = arr[0];
+          let idValue = arr[1];
+
+          i++;
+          const html = `
+
+        <tr class="td-${idValue}">
+            <td>${key}</td>
+            <td>${costValue}</td>
+            <td><button class="trash-button"><img class="td-${idValue}" src="images/icons8-trash-30.png"/></button></td>
+        </tr>`;
+
+          document
+            .querySelector(".table")
+            .insertAdjacentHTML("beforeend", html);
+        }
+        //---------//---------////---------//---------//
+        console.log("///-------------------------------------");
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        console.log("///-------------------------------------");
+      });
+    //-----
   </script>
 </html>

@@ -1,7 +1,8 @@
 // Variables
-let budget = 0;
+let budget0 = 0;
 let supply = 0;
-let costs = 0;
+let costs0 = 0;
+const costsMap = new Map();
 let i = 0;
 
 // Div
@@ -29,9 +30,9 @@ btnAddBudget.addEventListener("click", function () {
   if (inputBudget.value && inputBudget.value >= 0) {
     const inBidget = Number(inputBudget.value);
 
-    budget += inBidget;
-    console.log(budget);
-    displayLeftLabel.textContent = `$${budget}`;
+    budget0 += inBidget;
+    console.log(budget0);
+    displayLeftLabel.textContent = `$${budget0}`;
 
     supply += inBidget;
     displayRightLabel.textContent = `$${supply}`;
@@ -44,10 +45,10 @@ btnAddCost.addEventListener("click", function () {
     if (inputCost2.value && inputCost2.value >= 0) {
       const inCost2 = Number(inputCost2.value);
       if (supply - inCost2 >= 0) {
-        costs += inCost2;
+        costs0 += inCost2;
         supply -= inCost2;
         displayRightLabel.textContent = `$${supply}`;
-        displayCenterLabel.textContent = `$${costs}`;
+        displayCenterLabel.textContent = `$${costs0}`;
         i++;
         const html = `
         
